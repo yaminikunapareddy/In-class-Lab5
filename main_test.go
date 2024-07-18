@@ -4,31 +4,27 @@ import (
 	"testing"
 )
 
-func TestFactorial(t *testing.T) {
-	// Test for a normal case
-	result, err := Factorial(5)
-	expected := 120
-	if err != nil || result != expected {
-		t.Errorf("Expected %v, got %v (error: %v)", expected, result, err)
+func TestCountCharOccurrences(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected map[rune]int
+	}{
+		{
+			input:    "hello world",
+			expected: map[rune]int{'h': 1, 'e': 1, 'l': 3, 'o': 2, ' ': 1, 'w': 1, 'r': 1, 'd': 1},
+		},
+		{
+			input:    "go programming",
+			expected: map[rune]int{'g': 3, 'o': 2, ' ': 1, 'p': 1 , 'r': 2, 'a': 1, 'm': 2, 'i': 1, 'n': 1},
+		},
 	}
 
-	// Test for an edge case
-	result, err = Factorial(0)
-	expected = 1
-	if err != nil || result != expected {
-		t.Errorf("Expected %v, got %v (error: %v)", expected, result, err)
-	}
-
-	// Test for a negative input
-	result, err = Factorial(-1)
-	if err == nil {
-		t.Errorf("Expected an error for negative input, got %v", result)
-	}
-
-	// Test for another normal case
-	result, err = Factorial(7)
-	expected = 5040
-	if err != nil || result != expected {
-		t.Errorf("Expected %v, got %v (error: %v)", expected, result, err)
+	for _, test := range tests {
+		result := CountCharOccurrences(test.input)
+		for char, expectedCount := range test.expected {
+			if result[char] != expectedCount {
+				t.Errorf("For input %q, expected count of %c to be %d, but got %d", test.input, char, expectedCount, result[char])
+			}
+		}
 	}
 }
